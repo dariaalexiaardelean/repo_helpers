@@ -1,0 +1,48 @@
+---
+title: "Combining group descriptives: worked example"
+format: html
+---
+
+## The problem
+
+Many studies report age (or any continuous baseline variable) only per group,
+e.g. treatment vs control. For extraction we often need the whole-sample
+N, mean and SD.
+
+The mean is the n-weighted average. The SD is **not** the average of the SDs:
+the combined SD must also include the variability *between* group means.
+
+$$
+M = \frac{\sum n_i m_i}{N}, \qquad
+SD = \sqrt{\frac{\sum \left[(n_i - 1) SD_i^2 + n_i (m_i - M)^2\right]}{N - 1}}
+$$
+
+## Load the function
+
+```{r}
+source("combine_groups.R")
+```
+
+## Example: a two-arm trial
+
+| Group     | n  | Mean age | SD  |
+|-----------|----|----------|-----|
+| Treatment | 25 | 64.2     | 8.1 |
+| Control   | 23 | 66.8     | 7.4 |
+
+```{r}
+combine_groups(n = c(25, 23), m = c(64.2, 66.8), sd = c(8.1, 7.4))
+```
+
+## Example: three groups
+
+```{r}
+combine_groups(n = c(30, 28, 31), m = c(70.1, 68.4, 72.0), sd = c(6.2, 7.0, 5.8))
+```
+
+## Example: Amiri 2023
+
+```{r}
+amiri2023 <- combine_groups(n = c(25, 25), m = c(54.4, 53.08), sd = c(12.30, 9.31))
+amiri2023
+```
